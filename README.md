@@ -29,16 +29,27 @@ for one protein variant (either `E` or `Neutral`).
 ---
 
 ## 📁 Directory Layout
+
 Bioemu/
+
 ├── manifests/
+
 │ └── manifest_multi_sites.tsv
+
 ├── outputs/
+
 │ └── multisite/ ← sampling results
+
 ├── logs/ ← job logs
+
 ├── caches/embeds/ ← embedding cache
+
 ├── caches/so3/
+
 ├── venvs/bioemu-md/ ← Python venv
+
 └── run_bioemu_generic.sh ← universal SLURM script
+
 
 
 
