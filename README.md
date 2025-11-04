@@ -35,7 +35,7 @@ Each stage is generic, modular, and fully compatible with future datasets.
 ```bash
 sbatch --array=1-$N%50 run_bioemu_generic.sh \
   manifests/manifest_multi_sites.tsv \
-
+```
 2️⃣ Sidechain Rebuilding Phase
 
 ```
