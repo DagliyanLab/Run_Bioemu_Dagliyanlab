@@ -35,6 +35,8 @@ Each stage is generic, modular, and fully compatible with future datasets.
 ```bash
 sbatch --array=1-$N%50 run_bioemu_generic.sh \
   manifests/manifest_multi_sites.tsv \
+  outputs/multisite \
+  E
 ```
 2️⃣ Sidechain Rebuilding Phase
 
@@ -84,10 +86,4 @@ Output directory
 
 Variant tag (E, Neutral, ALL)
 
-Maintainer:
-🧑‍🔬 Dhruba Tara Maharjan
-📧 tara.maharjan@ki.se
 
-
-  outputs/multisite \
-  E
