@@ -1,55 +1,93 @@
-# 🧬 BioEmu Multisite Sampling Protocol
+# 🧬 BioEmu Multisite Structural Sampling & Reconstruction
 
-**Project:** BioEmu – multi-phosphorylation domain structural sampling  
-**System:** Alvis HPC (A100 GPU nodes)  
-**Maintainer:** [Dagliyanlab / Tara]  
-**Last updated:** 2025-11-04  
+**Repository for:** automated sampling and sidechain reconstruction  
+of multi-phosphorylation domain variants using **BioEmu** on the  
+**Alvis HPC (Sweden)** cluster.
 
 ---
 
 ## 📘 Overview
 
-This protocol documents how to run **BioEmu** for proteins that contain  
-**multiple phosphorylation sites in the same domain sequence**.
+This repository provides ready-to-use SLURM workflows for:
+1. **Sampling** – generating 3,000 conformations per protein variant.  
+2. **Sidechain Reconstruction** – rebuilding sampled models with full sidechains.
 
-Each SLURM job performs a 3,000-sample structural simulation  
-for one protein variant (either `E` or `Neutral`).
+Each stage is generic, modular, and fully compatible with future datasets.
+
 
 ---
 
 ## ⚙️ System Requirements
 
-| Component | Path / Version | Notes |
-|------------|----------------|-------|
-| Python environment | `/mimer/NOBACKUP/groups/naiss2025-5-451/Bioemu/venvs/bioemu-md` | Contains BioEmu |
-| Project root | `/mimer/NOBACKUP/groups/naiss2025-5-451/Bioemu` | Base directory |
-| GPU nodes | `A100` (4 per node) | Use one per job |
-| Scheduler | SLURM | Jobs submitted via `sbatch` |
+| Component | Requirement |
+|------------|--------------|
+| HPC system | Alvis (Chalmers, NAISS) |
+| Scheduler | SLURM |
+| GPU nodes | A100 (4 GPUs per node) |
+| Python | 3.11+ |
+| BioEmu env | `/mimer/.../venvs/bioemu-md` |
 
 ---
 
-## 📁 Directory Layout
+## 🚀 Quickstart
 
-Bioemu/
+### 1️⃣ Sampling Phase
+```bash
+sbatch --array=1-$N%50 run_bioemu_generic.sh \
+  manifests/manifest_multi_sites.tsv \
 
-├── manifests/
+2️⃣ Sidechain Rebuilding Phase
 
-│ └── manifest_multi_sites.tsv
+```
+sbatch --array=1-$N%50 run_bioemu_rebuild_generic.sh \
+  manifests/manifest_multi_sites.tsv \
+  outputs/multisite \
+  outputs/multisite_rebuilt \
+  E
+```
 
-├── outputs/
+🧩 Replace E with Neutral or ALL as needed.
 
-│ └── multisite/ ← sampling results
+🧾 Manifest Format
+Column	Description
+task_id	Unique integer
+protein	Protein ID
+residue	Mutated residues
+site_in_domain	Site positions in domain
+variant	E / Neutral
+task_tag	Unique name per variant
+sequence	Domain amino acid sequence
 
-├── logs/ ← job logs
+📊 Outputs
+Stage	Directory	Description
+Sampling	outputs/multisite	Raw sampled conformations
+Rebuild	outputs/multisite_rebuilt	Sidechain-complete structures
+📈 Monitoring
 
-├── caches/embeds/ ← embedding cache
+```
+squeue -u $USER              # View running jobs
+less logs/sampling_*.out     # Check sampling logs
+less logs/rebuild_*.out      # Check rebuild logs
+```
 
-├── caches/so3/
+🧠 Extending
 
-├── venvs/bioemu-md/ ← Python venv
+Add new manifests with identical column format
 
-└── run_bioemu_generic.sh ← universal SLURM script
+Use the same scripts for new experiments
+
+Change only:
+
+Input manifest path
+
+Output directory
+
+Variant tag (E, Neutral, ALL)
+
+Maintainer:
+🧑‍🔬 Dhruba Tara Maharjan
+📧 tara.maharjan@ki.se
 
 
-
-
+  outputs/multisite \
+  E
