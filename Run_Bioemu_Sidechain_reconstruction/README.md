@@ -79,7 +79,7 @@ head work/rebuild_tasks.txt
 N=$(wc -l < work/rebuild_tasks.txt)
 echo "Total tasks: $N"
 
-sbatch --array=1-$N%8 run_rebuild_from_list.sh work/rebuild_tasks.txt
+sbatch --array=1-$N%8 run_bioemu_rebuild_generic.sh work/rebuild_tasks.txt
 ```
 
 💡 Notes
