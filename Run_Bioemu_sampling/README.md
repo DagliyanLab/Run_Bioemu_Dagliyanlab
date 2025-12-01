@@ -17,6 +17,7 @@ sbatch --array=1-$N%50 \
   ALL \
   1000
 ```
+The last 1000 stands for seed; for multiple batches, the job should be submitted multiple times with different seeds.
 
 🧩 Extending to New Datasets
 
