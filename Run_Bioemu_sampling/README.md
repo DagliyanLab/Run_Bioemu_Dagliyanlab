@@ -5,35 +5,6 @@
 ```
 cd /mimer/NOBACKUP/groups/naiss2025-5-451/Bioemu
 
-NE=$(awk 'BEGIN{FS="\t"} NR>1 && $5=="E"{c++} END{print c}' \
-  manifests/manifest_multi_sites.tsv)
-
-NN=$(awk 'BEGIN{FS="\t"} NR>1 && $5=="Neutral"{c++} END{print c}' \
-  manifests/manifest_multi_sites.tsv)
-
-echo "E variants:       $NE"
-echo "Neutral variants: $NN"
-```
-
-2️⃣ Submit E-variant jobs
-
-```
-sbatch --array=1-$NE%50 \
-  run_bioemu_generic.sh \
-  manifests/manifest_multi_sites.tsv \
-  outputs/multisite \
-  E
-```
-3️⃣ Submit Neutral-variant jobs
-
-```
-sbatch --array=1-$NN%50 \
-  run_bioemu_generic.sh \
-  manifests/manifest_multi_sites.tsv \
-  outputs/multisite \
-  Neutral
-```
-
 4️⃣ (Optional) Run all variants at once
 
 ```
@@ -43,7 +14,8 @@ sbatch --array=1-$N%50 \
   run_bioemu_generic.sh \
   manifests/manifest_multi_sites.tsv \
   outputs/multisite \
-  ALL
+  ALL \
+  1000
 ```
 
 🧩 Extending to New Datasets
@@ -63,7 +35,8 @@ sbatch --array=1-$N%50 \
   run_bioemu_generic.sh \
   manifests/new_dataset.tsv \
   outputs/new_dataset \
-  ALL
+  ALL \
+  1000
 ```
 🧠 Notes
 
