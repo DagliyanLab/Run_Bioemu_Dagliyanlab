@@ -7,7 +7,6 @@ cd /mimer/NOBACKUP/groups/naiss2025-5-451/Bioemu
 
 4️⃣ (Optional) Run all variants at once
 
-```
 N=$(( $(wc -l < manifests/manifest_multi_sites.tsv) - 1 ))
 
 sbatch --array=1-$N%50 \
